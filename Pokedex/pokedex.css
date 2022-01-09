@@ -1,0 +1,28 @@
+body {
+    background-image: linear-gradient(to right, rgba(14, 12, 12, 0.705), rgb(161, 133, 133));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    margin: auto;
+}
+
+.poke-container {
+    display: flex;
+    flex-direction: row;
+    align-items: space-between;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.poke-card {
+    display: flex;
+    justify-content: end;
+    width: 160px;
+    font-family: monospace;
+    margin: 10px 20px;
+}
+
+img {
+    align-self: center;
+}

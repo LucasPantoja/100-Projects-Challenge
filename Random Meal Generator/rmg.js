@@ -1,57 +1,57 @@
 const get_meal = document.getElementById('get_meal');
-    const meal_container = document.getElementById('meal');
-    
-    get_meal.addEventListener('click', () => loadMeal(), false);
+const meal_container = document.getElementById('meal');
 
-    async function loadMeal(){
-        const res = await fetch('https://www.themealdb.com/api/json/v1/1/random.php');
-        if(!res.ok){
-            throw new Error(res.statusText);
-        }
-        const meals = await res.json();
-        const meal = meals.meals[0];
-        const ingredients = loadIngredients(meal);
+get_meal.addEventListener('click', () => loadMeal(), false);
 
-        const newInnerHTML = `
-        <div class="row">
-            <div class="columns five">
-                <img src="${meal.strMealThumb}" alt="Meal Image">
-                ${meal.strCategory ? `<p><strong>Category:</strong> ${meal.strCategory}</p>` : ''}
-                ${meal.strArea ? `<p><strong>Area:</strong> ${meal.strArea}</p>` : ''}
-                ${meal.strTags ? `<p><strong>Tags:</strong> ${meal.strTags.split(',').join(', ')}</p>` : ''}
-                <h5>Ingredients:</h5>
-                <ul>
-                    ${ingredients.map(ingredient => `<li>${ingredient}</li>`).join('')}
-                </ul>
-            </div>
-            <div class="columns seven">
-                <h4>${meal.strMeal}</h4>
-                <p>${meal.strInstructions}</p>
-            </div>
-        </div>
-    ${meal.strYoutube ? `
+async function loadMeal(){
+    const res = await fetch('https://www.themealdb.com/api/json/v1/1/random.php');
+    if(!res.ok){
+        throw new Error(res.statusText);
+    }
+    const meals = await res.json();
+    const meal = meals.meals[0];
+    const ingredients = loadIngredients(meal);
+
+    const newInnerHTML = `
     <div class="row">
-        <h5>Video Recipe</h5>
-        <div class="videoWrapper">
-            <iframe width="420" height="315"
-                src="https://www.youtube.com/embed/${meal.strYoutube.slice(-11)}">
-            </iframe>
+        <div class="columns five">
+            <img src="${meal.strMealThumb}" alt="Meal Image">
+            ${meal.strCategory ? `<p><strong>Category:</strong> ${meal.strCategory}</p>` : ''}
+            ${meal.strArea ? `<p><strong>Area:</strong> ${meal.strArea}</p>` : ''}
+            ${meal.strTags ? `<p><strong>Tags:</strong> ${meal.strTags.split(',').join(', ')}</p>` : ''}
+            <h5>Ingredients:</h5>
+            <ul>
+                ${ingredients.map(ingredient => `<li>${ingredient}</li>`).join('')}
+            </ul>
         </div>
-    </div>` : ''}
-  `;
-  
-  meal_container.innerHTML = newInnerHTML;
-    };
+        <div class="columns seven">
+            <h4>${meal.strMeal}</h4>
+            <p>${meal.strInstructions}</p>
+        </div>
+    </div>
+${meal.strYoutube ? `
+<div class="row">
+    <h5>Video Recipe</h5>
+    <div class="videoWrapper">
+        <iframe width="420" height="315"
+            src="https://www.youtube.com/embed/${meal.strYoutube.slice(-11)}">
+        </iframe>
+    </div>
+</div>` : ''}
+`;
 
-    function loadIngredients(meal){
-        const ingredients = [];
+meal_container.innerHTML = newInnerHTML;
+};
 
-        for(let i = 1;  i <= 20;  i++) {
-            if(meal[`strIngredient${i}`]){
-                ingredients.push(`${meal[`strIngredient${i}`]}   -   ${meal[`strMeasure${i}`]}`);
-            }else{
-                break;
-            }
+function loadIngredients(meal){
+    const ingredients = [];
+
+    for(let i = 1;  i <= 20;  i++) {
+        if(meal[`strIngredient${i}`]){
+            ingredients.push(`${meal[`strIngredient${i}`]}   -   ${meal[`strMeasure${i}`]}`);
+        }else{
+            break;
         }
-        return ingredients;
-    };
+    }
+    return ingredients;
+};
